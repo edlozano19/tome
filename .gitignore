@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors / IDE (root-level)
+.vscode/
+.idea/
+
+# Env / secrets (local overrides)
+.env
+.env.*
+!.end.examples
+
+# Logs
+*.logs
+
+# Docker overrides (personal local tweaks)
+docker-compose.override.yml

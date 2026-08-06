@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: tome
+
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins: "http://localhost:5173"
+        allowed-meathods: GET

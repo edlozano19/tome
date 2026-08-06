@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: tome-postgres
+    environment:
+      POSTGRES_DB: tome
+      POSTGRES_USER: tome
+      POSTGRES_PASSWORD: tome
+    ports:
+      - "5432:5432"
+    volumes:
+      - tome_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tome -d tome"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  tome_pg_data:
