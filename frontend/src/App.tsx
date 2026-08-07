@@ -1,11 +1,11 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [status, setStatus] = useState<string>("loading...");
+  const [status, setStatus] = useState<string>('loading...');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/actuator/health")
+    fetch('http://localhost:8080/actuator/health')
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
