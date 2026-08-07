@@ -59,7 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-deph: 0
+          fetch-depth: 0
       
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
