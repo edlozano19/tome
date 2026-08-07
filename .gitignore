@@ -17,3 +17,6 @@ Desktop.ini
 
 # Docker overrides (personal local tweaks)
 docker-compose.override.yml
+
+# Personal local notes (not committed)
+docs/phase-1-summary.md
