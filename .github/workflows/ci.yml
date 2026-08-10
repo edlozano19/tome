@@ -13,6 +13,27 @@ jobs:
     defaults:
       run:
         working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: tome
+          POSTGRES_USER: tome
+          POSTGRES_PASSWPRD: tome
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tome -d tome"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/tome
+      SPRING_DATASOURCE_USERNAME: tome
+      SPRING_DATASOURCE_PASSWORD: tome
+
     steps:
       - uses: actions/checkout@v4
 
