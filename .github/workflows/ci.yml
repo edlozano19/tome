@@ -20,7 +20,7 @@ jobs:
         env:
           POSTGRES_DB: tome
           POSTGRES_USER: tome
-          POSTGRES_PASSWPRD: tome
+          POSTGRES_PASSWORD: tome
         ports:
           - 5432:5432
         options: >-
