@@ -2,10 +2,14 @@ CREATE TABLE account (
     id UUID PRIMARY KEY,
     role VARCHAR(32) NOT NULL DEFAULT 'USER',
     email VARCHAR(320) NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     password_hash VARCHAR(100) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT uq_account_email UNIQUE (email),
+    CONSTRAINT uq_account_username UNIQUE (username),
     CONSTRAINT ck_account_role CHECK (role IN ('USER', 'ADMIN'))
 );
 

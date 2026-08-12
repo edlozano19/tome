@@ -1,4 +1,4 @@
-package com.tome.auth;
+package com.tome.auth.domain;
 
 public enum Role {
   USER,

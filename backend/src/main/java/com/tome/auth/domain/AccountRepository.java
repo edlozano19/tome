@@ -1,4 +1,4 @@
-package com.tome.auth;
+package com.tome.auth.domain;
 
 import java.util.Optional;
 import java.util.UUID;

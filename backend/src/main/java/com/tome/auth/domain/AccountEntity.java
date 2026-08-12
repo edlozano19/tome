@@ -1,4 +1,4 @@
-package com.tome.auth;
+package com.tome.auth.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,6 +24,15 @@ public class AccountEntity {
   @Column(nullable = false, unique = true, length = 320)
   private String email;
 
+  @Column(nullable = false, unique = true, length = 50)
+  private String username;
+
+  @Column(name = "first_name", nullable = false, length = 100)
+  private String firstName;
+
+  @Column(name = "last_name", nullable = false, length = 100)
+  private String lastName;
+
   @Column(name = "password_hash", nullable = false, length = 100)
   private String passwordHash;
 
@@ -35,10 +44,20 @@ public class AccountEntity {
 
   protected AccountEntity() {}
 
-  public AccountEntity(UUID id, Role role, String email, String passwordHash) {
+  public AccountEntity(
+      UUID id,
+      Role role,
+      String email,
+      String username,
+      String firstName,
+      String lastName,
+      String passwordHash) {
     this.id = id;
     this.role = role;
     this.email = email;
+    this.username = username;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.passwordHash = passwordHash;
     Instant now = Instant.now();
     createdAt = now;
