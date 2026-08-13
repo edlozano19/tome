@@ -6,6 +6,7 @@ import com.tome.auth.domain.Role;
 import com.tome.auth.web.dto.AccountResponseDTO;
 import com.tome.auth.web.dto.LoginRequestDTO;
 import com.tome.auth.web.dto.RegisterRequestDTO;
+import com.tome.auth.web.dto.TokenResponseDTO;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,13 +19,16 @@ import org.springframework.web.server.ResponseStatusException;
 public class AuthService {
   private final AccountRepository accountRepository;
   private final PasswordEncoder passwordEncoder;
+  private final JwtService jwtService;
 
-  public AuthService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+  public AuthService(
+      AccountRepository accountRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
     this.accountRepository = accountRepository;
     this.passwordEncoder = passwordEncoder;
+    this.jwtService = jwtService;
   }
 
-  public AccountResponseDTO register(RegisterRequestDTO request) {
+  public TokenResponseDTO register(RegisterRequestDTO request) {
     log.info(
         "Register request for email={} username={}", request.getEmail(), request.getUsername());
 
@@ -51,10 +55,10 @@ public class AuthService {
 
     AccountEntity saved = accountRepository.save(account);
     log.info("Account created id={} email={}", saved.getId(), saved.getEmail());
-    return toResponse(saved);
+    return buildTokenResponse(account);
   }
 
-  public AccountResponseDTO login(LoginRequestDTO request) {
+  public TokenResponseDTO login(LoginRequestDTO request) {
     log.info("Login request for email={}", request.getEmail());
 
     AccountEntity account =
@@ -68,7 +72,7 @@ public class AuthService {
     }
 
     log.info("Login succeeded id={} email={}", account.getId(), account.getEmail());
-    return toResponse(account);
+    return buildTokenResponse(account);
   }
 
   private AccountResponseDTO toResponse(AccountEntity account) {
@@ -79,5 +83,10 @@ public class AuthService {
         account.getFirstName(),
         account.getLastName(),
         account.getRole());
+  }
+
+  private TokenResponseDTO buildTokenResponse(AccountEntity account) {
+    String accessToken = jwtService.generateAccessToken(account);
+    return new TokenResponseDTO(accessToken, "Bearer", toResponse(account));
   }
 }

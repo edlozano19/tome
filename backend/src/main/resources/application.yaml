@@ -22,3 +22,8 @@ management:
       cors:
         allowed-origins: "http://localhost:5173"
         allowed-methods: GET
+
+tome:
+  jwt:
+    secret: "+/#k'eGFzVsj8h:;8LY,t|4mvd6RQkEH"
+    access-token-ttl-minutes: 15

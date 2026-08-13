@@ -1,9 +1,9 @@
 package com.tome.auth.web;
 
 import com.tome.auth.service.AuthService;
-import com.tome.auth.web.dto.AccountResponseDTO;
 import com.tome.auth.web.dto.LoginRequestDTO;
 import com.tome.auth.web.dto.RegisterRequestDTO;
+import com.tome.auth.web.dto.TokenResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +23,12 @@ public class AuthController {
 
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
-  public AccountResponseDTO register(@Valid @RequestBody RegisterRequestDTO request) {
+  public TokenResponseDTO register(@Valid @RequestBody RegisterRequestDTO request) {
     return authService.register(request);
   }
 
   @PostMapping("/login")
-  public AccountResponseDTO login(@Valid @RequestBody LoginRequestDTO request) {
+  public TokenResponseDTO login(@Valid @RequestBody LoginRequestDTO request) {
     return authService.login(request);
   }
 }
