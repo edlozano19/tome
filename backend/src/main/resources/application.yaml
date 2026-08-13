@@ -27,3 +27,4 @@ tome:
   jwt:
     secret: "+/#k'eGFzVsj8h:;8LY,t|4mvd6RQkEH"
     access-token-ttl-minutes: 15
+    refresh-token-ttl-days: 13

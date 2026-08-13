@@ -2,6 +2,7 @@ package com.tome.auth.web;
 
 import com.tome.auth.service.AuthService;
 import com.tome.auth.web.dto.LoginRequestDTO;
+import com.tome.auth.web.dto.RefreshRequestDTO;
 import com.tome.auth.web.dto.RegisterRequestDTO;
 import com.tome.auth.web.dto.TokenResponseDTO;
 import jakarta.validation.Valid;
@@ -30,5 +31,10 @@ public class AuthController {
   @PostMapping("/login")
   public TokenResponseDTO login(@Valid @RequestBody LoginRequestDTO request) {
     return authService.login(request);
+  }
+
+  @PostMapping("/refresh")
+  public TokenResponseDTO refresh(@Valid @RequestBody RefreshRequestDTO request) {
+    return authService.refresh(request);
   }
 }
