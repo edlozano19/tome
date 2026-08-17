@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { useAuth } from './auth/AuthContext';
+import { HomePage } from './pages/HomePage';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 function App() {
-  const [status, setStatus] = useState<string>('loading...');
-  const [error, setError] = useState<string | null>(null);
+  const { isLoading } = useAuth();
 
-  useEffect(() => {
-    fetch('http://localhost:8080/actuator/health')
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data: { status: string }) => setStatus(data.status))
-      .catch((err: Error) => setError(err.message));
-  }, []);
+  if (isLoading)
+    return (
+      <main>
+        <p>Loading session...</p>
+      </main>
+    );
 
   return (
-    <main>
-      <h1>Tome</h1>
-      {error ? <p>Error: {error}</p> : <p>Backend Health: {status}</p>}
-    </main>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
