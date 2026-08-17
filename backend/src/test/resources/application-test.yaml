@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tome
+    username: tome
+    password: tome
+
+tome:
+  jwt:
+    secret: "3YetNiJUSEySbnhBWHAYDMh3r6BOJXdhkyK19hzqyzQ"
+    access-token-ttl-minutes: 15
+    refresh-token-ttl-days: 14
