@@ -1,11 +1,15 @@
 import { useState, type SubmitEvent } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { ApiError } from '../api/client';
 import { useAuth } from '../auth/AuthContext';
 
 export function LoginPage() {
   const { login, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from =
+    (location.state as { from?: { pathname: string } } | null)?.from
+      ?.pathname ?? '/';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +17,7 @@ export function LoginPage() {
   const [submitting, setSubmitting] = useState(false);
 
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={from} replace />;
   }
 
   async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
@@ -23,7 +27,7 @@ export function LoginPage() {
 
     try {
       await login({ email, password });
-      navigate('/', { replace: true });
+      navigate(from, { replace: true });
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);

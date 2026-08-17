@@ -11,6 +11,9 @@ export function HomePage() {
       {user ? (
         <>
           <p>Signed in as {user.username}</p>
+          <p>
+            <Link to="/library">Library</Link>
+          </p>
           <button type="button" onClick={logout}>
             Log out
           </button>
