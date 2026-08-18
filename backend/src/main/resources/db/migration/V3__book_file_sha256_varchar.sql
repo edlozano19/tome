@@ -1,0 +1,2 @@
+ALTER TABLE book_file
+    ALTER COLUMN sha256 TYPE VARCHAR(64);
