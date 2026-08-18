@@ -12,11 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
-
+import lombok.Getter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
-import lombok.Getter;
 
 @Entity
 @Getter
@@ -38,7 +36,7 @@ public class UserBookEntity {
   private UserBookStatus status;
 
   @JdbcTypeCode(SqlTypes.SMALLINT)
-  @Column 
+  @Column
   private Integer rating;
 
   @Column(name = "current_chapter")
