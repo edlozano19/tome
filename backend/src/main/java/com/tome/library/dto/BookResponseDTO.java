@@ -1,5 +1,6 @@
 package com.tome.library.dto;
 
+import com.tome.library.model.BookEntity;
 import java.util.UUID;
 
 public class BookResponseDTO {
@@ -13,28 +14,20 @@ public class BookResponseDTO {
   private String source;
   private String coverUrl;
 
-  public BookResponseDTO() {}
-  ;
+  public BookResponseDTO() {} // NOSONAR - required by Jackson
 
-  public BookResponseDTO(
-      UUID id,
-      String title,
-      String author,
-      String slug,
-      String description,
-      String language,
-      boolean publicDomain,
-      String source,
-      String coverUrl) {
-    this.id = id;
-    this.title = title;
-    this.author = author;
-    this.slug = slug;
-    this.description = description;
-    this.language = language;
-    this.publicDomain = publicDomain;
-    this.source = source;
-    this.coverUrl = coverUrl;
+  public static BookResponseDTO from(BookEntity book) {
+    BookResponseDTO dto = new BookResponseDTO();
+    dto.id = book.getId();
+    dto.title = book.getTitle();
+    dto.author = book.getAuthor();
+    dto.slug = book.getSlug();
+    dto.description = book.getDescription();
+    dto.language = book.getLanguage();
+    dto.publicDomain = book.isPublicDomain();
+    dto.source = book.getSource();
+    dto.coverUrl = book.getCoverUrl();
+    return dto;
   }
 
   public UUID getId() {

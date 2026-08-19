@@ -57,15 +57,6 @@ public class LibraryService {
   }
 
   private BookResponseDTO toBookResponse(BookEntity book) {
-    return new BookResponseDTO(
-        book.getId(),
-        book.getTitle(),
-        book.getAuthor(),
-        book.getSlug(),
-        book.getDescription(),
-        book.getLanguage(),
-        book.isPublicDomain(),
-        book.getSource(),
-        book.getCoverUrl());
+    return BookResponseDTO.from(book);
   }
 }

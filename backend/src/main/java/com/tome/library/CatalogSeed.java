@@ -15,6 +15,8 @@ public class CatalogSeed implements ApplicationRunner {
     this.bookRepository = bookRepository;
   }
 
+  private static final String source = "gutenberg";
+
   @Override
   public void run(ApplicationArguments args) {
     seed(
@@ -22,25 +24,25 @@ public class CatalogSeed implements ApplicationRunner {
         "Dracula",
         "Bram Stoker",
         "A Gothic horror novel about Count Dracula's attempts to move from Tansylvania to England.",
-        "gutenberg");
+        source);
     seed(
         "frankenstein",
         "Frankenstein",
         "Mary Shelley",
         "A scientist creates life and faces the consequences of his ambition.",
-        "gutenberg");
+        source);
     seed(
         "pride-and-prejudice",
         "Pride and Prejudice",
         "Jane Austen",
         "Elizabeth Bennet navigates manners, marriage, and misunderstanding in Georgian England.",
-        "gutenberg");
+        source);
     seed(
         "the-adventures-of-sherlock-holmes",
         "The Adventures of Sherlock Holmes",
         "Arthur Conan Doyle",
         "A collection of twelve short stories featuring Shelock Holmes and Dr. Watson.",
-        "gutenberg");
+        source);
   }
 
   private void seed(String slug, String title, String author, String description, String source) {
