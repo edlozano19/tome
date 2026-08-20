@@ -16,6 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class EpubStorageService {
 
+  private static final String EPUB_FILE_EXTENSION = ".epub";
+
   private final Path epubDir;
 
   public EpubStorageService(@Value("${tome.storage.epub-dir}") String epubDir) {
@@ -42,7 +44,7 @@ public class EpubStorageService {
   public String store(byte[] bytes, String sha256) {
     try {
       Files.createDirectories(epubDir);
-      Path target = epubDir.resolve(sha256 + ".epub");
+      Path target = epubDir.resolve(sha256 + EPUB_FILE_EXTENSION);
       if (!Files.exists(target)) {
         Files.write(target, bytes);
       }
@@ -59,7 +61,7 @@ public class EpubStorageService {
     }
 
     String filename = file.getOriginalFilename();
-    if (filename == null || !filename.toLowerCase().endsWith(".epub")) {
+    if (filename == null || !filename.toLowerCase().endsWith(EPUB_FILE_EXTENSION)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File must be an .epub");
     }
   }
@@ -69,7 +71,7 @@ public class EpubStorageService {
       return "Uploaded book";
     }
     String name = Path.of(originalFilename).getFileName().toString();
-    if (name.toLowerCase().endsWith(".epub")) {
+    if (name.toLowerCase().endsWith(EPUB_FILE_EXTENSION)) {
       name = name.substring(0, name.length() - 5);
     }
     return name.isBlank() ? "Uploaded book" : name;
