@@ -15,6 +15,10 @@ spring:
           time_zone: UTC
   flyway:
     enabled: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 management:
   endpoints:
@@ -28,3 +32,5 @@ tome:
     secret: "+/#k'eGFzVsj8h:;8LY,t|4mvd6RQkEH"
     access-token-ttl-minutes: 15
     refresh-token-ttl-days: 13
+  storage:
+    epub-dir: ./storage/epubs

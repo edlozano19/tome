@@ -21,3 +21,7 @@ docker-compose.override.yml
 # Personal local notes (not committed)
 docs/phase-1-summary.md
 docs/phase-2-summary.md
+
+# local EPUB storage
+backend/storage
+storage/
