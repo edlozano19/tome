@@ -11,6 +11,7 @@ import com.tome.library.repository.BookRepository;
 import com.tome.library.repository.UserBookRepository;
 import java.util.List;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@Slf4j
 public class LibraryService {
   private static final String SOURCE_UPLOAD = "upload";
 
@@ -61,9 +63,13 @@ public class LibraryService {
     byte[] bytes = epubStorageService.readBytes(file);
     String sha256 = epubStorageService.sha256(bytes);
 
+    log.info("BOOK SHA-256: " + sha256);
+
     BookFileEntity existing = bookFileRepository.findBySha256(sha256).orElse(null);
     if (existing != null) {
-      return checkout(account, existing.getBook());
+      throw new ResponseStatusException(
+          HttpStatus.CONFLICT,
+          "This EPUB is already in the catalog. Add it from the catalog instead of uploading again");
     }
 
     String originalFilename = file.getOriginalFilename();
