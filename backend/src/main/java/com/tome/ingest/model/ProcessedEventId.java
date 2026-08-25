@@ -8,7 +8,7 @@ public class ProcessedEventId implements Serializable {
   private UUID eventId;
   private String consumerName;
 
-  public ProcessedEventId() {}
+  public ProcessedEventId() {} // NOSONAR - required by JPA
   ;
 
   public ProcessedEventId(UUID eventId, String consumerName) {
