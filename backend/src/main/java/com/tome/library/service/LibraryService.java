@@ -1,6 +1,7 @@
 package com.tome.library.service;
 
 import com.tome.auth.domain.AccountEntity;
+import com.tome.ingest.event.BookUploaded;
 import com.tome.library.dto.BookResponseDTO;
 import com.tome.library.dto.UserBookResponseDTO;
 import com.tome.library.model.BookEntity;
@@ -12,6 +13,7 @@ import com.tome.library.repository.UserBookRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,16 +29,19 @@ public class LibraryService {
   private final UserBookRepository userBookRepository;
   private final BookFileRepository bookFileRepository;
   private final EpubStorageService epubStorageService;
+  private final ApplicationEventPublisher publisher;
 
   public LibraryService(
       BookRepository bookRepository,
       UserBookRepository userBookRepository,
       BookFileRepository bookFileRepository,
-      EpubStorageService epubStorageService) {
+      EpubStorageService epubStorageService,
+      ApplicationEventPublisher publisher) {
     this.bookRepository = bookRepository;
     this.userBookRepository = userBookRepository;
     this.bookFileRepository = bookFileRepository;
     this.epubStorageService = epubStorageService;
+    this.publisher = publisher;
   }
 
   @Transactional(readOnly = true)
@@ -81,9 +86,17 @@ public class LibraryService {
         bookRepository.save(
             new BookEntity(UUID.randomUUID(), title, "Unknown", slug, null, SOURCE_UPLOAD, null));
 
-    bookFileRepository.save(
-        new BookFileEntity(
-            UUID.randomUUID(), book, sha256, originalFilename, (long) bytes.length, storagePath));
+    BookFileEntity bookFile =
+        bookFileRepository.save(
+            new BookFileEntity(
+                UUID.randomUUID(),
+                book,
+                sha256,
+                originalFilename,
+                (long) bytes.length,
+                storagePath));
+
+    publisher.publishEvent(new BookUploaded(UUID.randomUUID(), book.getId(), bookFile.getId()));
 
     return checkout(account, book);
   }
